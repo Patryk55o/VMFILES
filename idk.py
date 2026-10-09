@@ -1,0 +1,22 @@
+words = [
+    "apple", "mountain", "river", "cloud", "keyboard",
+    "forest", "lantern", "ocean", "pencil", "thunder",
+    "butterfly", "castle", "diamond", "whisper", "planet",
+    "mirror", "candle", "rocket", "meadow", "puzzle",
+    "tiger", "blanket", "sunset", "window", "guitar",
+    "desert", "feather", "bottle", "galaxy", "pillow",
+    "volcano", "compass", "shadow", "marble", "bridge",
+    "cookie", "rainbow", "hammer", "island", "wallet",
+    "dolphin", "crystal", "pocket", "helmet", "garden",
+    "squirrel", "diamond", "breeze", "ladder", "phoenix",
+    "copper", "jungle", "pyramid", "button", "canyon",
+    "blanket", "penguin", "statue", "velvet", "anchor",
+    "dragon", "bicycle", "treasure", "pumpkin", "sapphire",
+    "cactus", "fountain", "meadow", "parrot", "snowflake",
+    "tunnel", "compass", "magnet", "waterfall", "cherry",
+    "satellite", "envelope", "panda", "lantern", "footprint",
+    "tornado", "necklace", "igloo", "seashell", "pancake",
+    "lightning", "telescope", "mushroom", "backpack", "coral",
+    "sword", "hamster", "starlight", "cobweb", "teapot",
+    "marshmallow", "cinnamon", "airplane", "footstep", "horizon"
+]
