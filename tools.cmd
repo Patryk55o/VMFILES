@@ -20,11 +20,12 @@ echo Downloading RustDesk...
 curl.exe -fL -o "rustdesk-1.5.1-x86_64.exe" "https://github.com/rustdesk/rustdesk/releases/download/1.5.1/rustdesk-1.5.1-x86_64.exe"
 if errorlevel 1 goto error
 
+color a
 echo.
 echo Downloads complete!
 echo VMware Tools ISO is ready to mount.
 echo RustDesk installer is ready to run.
-echo Tools Have Been Downloaded/Installed
+echo Tools Have Been Downloaded/Installed, press any la key to exito 
 pause >nul
 
 :error
