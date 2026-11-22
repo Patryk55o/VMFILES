@@ -3,51 +3,75 @@ title VM Setup Downloader
 
 cd /d "%~dp0"
 
+set "SKIP_VMWARE="
+set "SKIP_XDM="
+set "SKIP_RUSTDESK="
+
+:parse_args
+if "%~1"=="" goto main
 if /i "%~1"=="-w" goto windows_install
 if /i "%~1"=="--windows-install" goto windows_install
+if /i "%~1"=="--skip-vmware" set "SKIP_VMWARE=1"
+if /i "%~1"=="--skip-xdm" set "SKIP_XDM=1"
+if /i "%~1"=="--skip-rustdesk" set "SKIP_RUSTDESK=1"
+shift
+goto parse_args
 
+:main
 set "VMTOOLS_ISO=%~dp0VMware-tools-windows-13.1.5-25544008.iso"
 
-echo Downloading VMware Tools...
-call :download "https://packages.vmware.com/tools/esx/latest/windows/VMware-tools-windows-13.1.5-25544008.iso" "%VMTOOLS_ISO%"
-if errorlevel 1 goto error
+if defined SKIP_VMWARE (
+    echo Skipping VMware Tools stage.
+) else (
+    echo Downloading VMware Tools...
+    call :download "https://packages.vmware.com/tools/esx/latest/windows/VMware-tools-windows-13.1.5-25544008.iso" "%VMTOOLS_ISO%"
+    if errorlevel 1 goto error
+    
+    echo.
+    echo Mounting VMware Tools ISO...
+    
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; $img = Mount-DiskImage -ImagePath $env:VMTOOLS_ISO -PassThru; $img | Get-Volume | Select-Object DriveLetter, FileSystemLabel"
+    
+    if errorlevel 1 goto error
+    
+    echo.
+    echo VMware Tools ISO mounted successfully!
+)
 
-echo.
-echo Mounting VMware Tools ISO...
+if defined SKIP_XDM (
+    echo Skipping XDM stage.
+) else (
+    echo.
+    echo Downloading Xtreme Download Manager...
+    
+    call :download "https://github.com/subhra74/xdm/releases/download/9.0.8/xdm-9.0.8-x64.msi" "xdm-9.0.8-x64.msi"
+    if errorlevel 1 goto error
+    
+    echo.
+    echo Installing Xtreme Download Manager...
+    
+    msiexec.exe /i "xdm-9.0.8-x64.msi" /passive /norestart
+)
 
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; $img = Mount-DiskImage -ImagePath $env:VMTOOLS_ISO -PassThru; $img | Get-Volume | Select-Object DriveLetter, FileSystemLabel"
-
-if errorlevel 1 goto error
-
-echo.
-echo VMware Tools ISO mounted successfully!
-
-echo.
-echo Downloading Xtreme Download Manager...
-
-call :download "https://github.com/subhra74/xdm/releases/download/9.0.8/xdm-9.0.8-x64.msi" "xdm-9.0.8-x64.msi"
-if errorlevel 1 goto error
-
-echo.
-echo Installing Xtreme Download Manager...
-
-msiexec.exe /i "xdm-9.0.8-x64.msi" /passive /norestart
-
-echo.
-echo Downloading RustDesk 1.5.3 MSI...
-
-call :download "https://github.com/rustdesk/rustdesk/releases/download/1.5.3/rustdesk-1.5.3-x86_64.msi" "rustdesk-1.5.3-x86_64.msi"
-if errorlevel 1 goto error
-
-echo.
-echo Launching RustDesk MSI installer...
-msiexec.exe /i "rustdesk-1.5.3-x86_64.msi"
+if defined SKIP_RUSTDESK (
+    echo Skipping RustDesk stage.
+) else (
+    echo.
+    echo Downloading RustDesk 1.5.3 MSI...
+    
+    call :download "https://github.com/rustdesk/rustdesk/releases/download/1.5.3/rustdesk-1.5.3-x86_64.msi" "rustdesk-1.5.3-x86_64.msi"
+    if errorlevel 1 goto error
+    
+    echo.
+    echo Installing RustDesk...
+    msiexec.exe /i "rustdesk-1.5.3-x86_64.msi" /passive /norestart
+)
 
 echo.
 echo Downloads complete!
-echo VMware Tools ISO is mounted.
-echo RustDesk installation launched.
-echo XDM installation launched.
+if not defined SKIP_VMWARE echo VMware Tools ISO is mounted.
+if not defined SKIP_RUSTDESK echo RustDesk installation launched.
+if not defined SKIP_XDM echo XDM installation launched.
 
 pause
 exit /b 0
