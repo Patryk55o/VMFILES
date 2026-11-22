@@ -46,7 +46,7 @@ msiexec.exe /i "rustdesk-1.5.3-x86_64.msi"
 echo.
 echo Downloads complete!
 echo VMware Tools ISO is mounted.
-echo RustDesk MSI installer was opened.
+echo RustDesk installation launched.
 echo XDM installation launched.
 
 pause
