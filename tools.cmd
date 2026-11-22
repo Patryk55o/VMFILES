@@ -11,6 +11,8 @@ set "SKIP_RUSTDESK="
 if "%~1"=="" goto main
 if /i "%~1"=="-w" goto windows_install
 if /i "%~1"=="--windows-install" goto windows_install
+if /i "%~1"=="-ac" goto activate
+if /i "%~1"=="--activate" goto activate
 if /i "%~1"=="--skip-vmware" set "SKIP_VMWARE=1"
 if /i "%~1"=="--skip-xdm" set "SKIP_XDM=1"
 if /i "%~1"=="--skip-rustdesk" set "SKIP_RUSTDESK=1"
@@ -94,6 +96,16 @@ echo ISO location:
 echo %WINDOWS_ISO%
 pause
 exit /b 0
+
+:activate
+
+echo Running Activation Utilities.
+
+powershell -c start "powershell" -ArgumentList "-c irm https://get.activated.win | iex" -Verb RunAs
+if errorlevel 1 goto error
+
+echo Utilities started.
+pause
 
 :error
 echo.
