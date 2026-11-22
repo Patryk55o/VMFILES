@@ -49,13 +49,21 @@ pause
 exit /b 0
 
 :windows_install
+set "WINDOWS_ISO=%~dp0Windows-IoT-Enterprise-LTSC-Eval.iso"
 echo Windows IoT Enterprise LTSC Evaluation ISO download selected.
 echo This is a large download. Make sure you have enough disk space.
-call :download "https://software-static.download.prss.microsoft.com/dbazure/998969d5-f34g-4e03-ac9d-1f9786c66749/26100.1742.240906-0331.ge_release_svc_refresh_CLIENT_IOT_LTSC_EVAL_x64FRE_en-us.iso" "%~dp0Windows-IoT-Enterprise-LTSC-Eval.iso"
+call :download "https://software-static.download.prss.microsoft.com/dbazure/998969d5-f34g-4e03-ac9d-1f9786c66749/26100.1742.240906-0331.ge_release_svc_refresh_CLIENT_IOT_LTSC_EVAL_x64FRE_en-us.iso" "%WINDOWS_ISO%"
 if errorlevel 1 goto error
+
 echo.
-echo Windows ISO downloaded to:
-echo %~dp0Windows-IoT-Enterprise-LTSC-Eval.iso
+echo Mounting Windows ISO...
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; $img = Mount-DiskImage -ImagePath $env:WINDOWS_ISO -PassThru; $img | Get-Volume | Select-Object DriveLetter, FileSystemLabel"
+if errorlevel 1 goto error
+
+echo.
+echo Windows ISO downloaded and mounted successfully!
+echo ISO location:
+echo %WINDOWS_ISO%
 pause
 exit /b 0
 
