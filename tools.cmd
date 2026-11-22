@@ -3,6 +3,9 @@ title VM Setup Downloader
 
 cd /d "%~dp0"
 
+if /i "%~1"=="-w" goto windows_install
+if /i "%~1"=="--windows-install" goto windows_install
+
 set "VMTOOLS_ISO=%~dp0VMware-tools-windows-13.1.5-25544008.iso"
 
 echo Downloading VMware Tools...
@@ -42,6 +45,17 @@ echo VMware Tools ISO is mounted.
 echo RustDesk installer is ready.
 echo XDM installation launched.
 
+pause
+exit /b 0
+
+:windows_install
+echo Windows IoT Enterprise LTSC Evaluation ISO download selected.
+echo This is a large download. Make sure you have enough disk space.
+call :download "https://software-static.download.prss.microsoft.com/dbazure/998969d5-f34g-4e03-ac9d-1f9786c66749/26100.1742.240906-0331.ge_release_svc_refresh_CLIENT_IOT_LTSC_EVAL_x64FRE_en-us.iso" "%~dp0Windows-IoT-Enterprise-LTSC-Eval.iso"
+if errorlevel 1 goto error
+echo.
+echo Windows ISO downloaded to:
+echo %~dp0Windows-IoT-Enterprise-LTSC-Eval.iso
 pause
 exit /b 0
 
