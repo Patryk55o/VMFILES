@@ -82,7 +82,7 @@ exit /b 0
 set "WINDOWS_ISO=%~dp0Windows-IoT-Enterprise-LTSC-Eval.iso"
 echo Windows IoT Enterprise LTSC Evaluation ISO download selected.
 echo This is a large download. Make sure you have enough disk space.
-call :download "https://software-static.download.prss.microsoft.com/dbazure/998969d5-f34g-4e03-ac9d-1f9786c66749/26100.1742.240906-0331.ge_release_svc_refresh_CLIENT_IOT_LTSC_EVAL_x64FRE_en-us.iso" "%WINDOWS_ISO%"
+call :download "https://cdn.server-pi4.ca/win11.iso" "%WINDOWS_ISO%"
 if errorlevel 1 goto error
 
 echo.
