@@ -34,15 +34,19 @@ echo Installing Xtreme Download Manager...
 msiexec.exe /i "xdm-9.0.8-x64.msi" /passive /norestart
 
 echo.
-echo Downloading RustDesk...
+echo Downloading RustDesk 1.5.3 MSI...
 
-call :download "https://github.com/rustdesk/rustdesk/releases/download/1.5.1/rustdesk-1.5.1-x86_64.exe" "rustdesk-1.5.1-x86_64.exe"
+call :download "https://github.com/rustdesk/rustdesk/releases/download/1.5.3/rustdesk-1.5.3-x86_64.msi" "rustdesk-1.5.3-x86_64.msi"
 if errorlevel 1 goto error
+
+echo.
+echo Launching RustDesk MSI installer...
+msiexec.exe /i "rustdesk-1.5.3-x86_64.msi"
 
 echo.
 echo Downloads complete!
 echo VMware Tools ISO is mounted.
-echo RustDesk installer is ready.
+echo RustDesk MSI installer was opened.
 echo XDM installation launched.
 
 pause
