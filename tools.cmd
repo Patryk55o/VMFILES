@@ -9,7 +9,7 @@ if /i "%~1"=="--windows-install" goto windows_install
 set "VMTOOLS_ISO=%~dp0VMware-tools-windows-13.1.5-25544008.iso"
 
 echo Downloading VMware Tools...
-call :download "https://packages-prod.broadcom.com/tools/releases/latest/windows/VMware-tools-windows-13.1.5-25544008.iso" "%VMTOOLS_ISO%"
+call :download "https://packages.vmware.com/tools/esx/latest/windows/VMware-tools-windows-13.1.5-25544008.iso" "%VMTOOLS_ISO%"
 if errorlevel 1 goto error
 
 echo.
@@ -85,7 +85,8 @@ where.exe curl.exe >nul 2>&1
 if not errorlevel 1 (
     echo Using curl...
     curl.exe -fL -o "%DOWNLOAD_FILE%" "%DOWNLOAD_URL%"
-    exit /b %errorlevel%
+    if errorlevel 1 exit /b 1
+    exit /b 0
 )
 
 echo curl.exe not found. Using PowerShell Invoke-WebRequest...
